@@ -14,11 +14,15 @@ function App() {
     setShow(true);
     fetch(`http://127.0.0.1:3001/website?url=${url}&width=${width}&height=${height}`)
       .then(async response => {
-        if (response.ok) {
-          let json = await response.json();
-          setResponse([json.data, width, height]);
+        if (!response.ok) {
           setShow(false);
+          const json = await response.json();
+          setFetchError(JSON.stringify(json));
+          return;
         }
+        const json = await response.json();
+        setResponse([json.data, width, height]);
+        setShow(false);
       })
       .catch(err => {
         setShow(false);

@@ -69,6 +69,9 @@ app.get('/website', (req, res) => {
     });
 
     await browser.close();
+  }).catch(err => {
+    console.error(err);
+    res.status(500).json(err);
   });
 });
 
